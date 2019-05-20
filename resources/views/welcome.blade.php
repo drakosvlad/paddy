@@ -82,7 +82,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Paddy
+                    paddy
                 </div>
 
                 <div class="links">
