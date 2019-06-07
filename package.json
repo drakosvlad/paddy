@@ -24,5 +24,8 @@
         "vue-router": "^3.0.6",
         "vue-template-compiler": "^2.6.10"
     },
-    "dependencies": {}
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "js-sha256": "^0.9.0"
+    }
 }
