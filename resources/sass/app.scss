@@ -11,3 +11,19 @@ body{
     font-family: 'IBM Plex Sans', sans-serif;
     background-image: url("../images/Pattern.png");
 }
+
+.header {
+    background: $friendly-blue-50;
+    color: white;
+    height: 75px;
+    box-shadow: 15px 0px 3.25px rgba(0, 0, 0, 0.25);
+
+    .logo {
+        line-height: 75px;
+        font-size: 36px;
+        font-weight: bold;
+        font-style: italic;
+        vertical-align: baseline;
+        margin-left: 24.75px;
+    }
+}
