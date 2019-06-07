@@ -12,9 +12,9 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 //import ExampleComponent from './components/ExampleComponent.vue';
-import LoginComponent from './components/LoginComponent.vue';
-import RegisterComponent from './components/RegisterComponent.vue';
-import PasswordsComponent from './components/PasswordsComponent.vue';
+import LoginComponent from './components/pages/LoginComponent.vue';
+import RegisterComponent from './components/pages/RegisterComponent.vue';
+import PasswordsComponent from './components/pages/PasswordsComponent.vue';
 
 const routes = [
     { path: '/', component: LoginComponent },
