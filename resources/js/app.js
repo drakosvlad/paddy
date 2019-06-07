@@ -11,10 +11,15 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
-import ExampleComponent from './components/ExampleComponent.vue';
+//import ExampleComponent from './components/ExampleComponent.vue';
+import LoginComponent from './components/LoginComponent.vue';
+import RegisterComponent from './components/RegisterComponent.vue';
+import PasswordsComponent from './components/PasswordsComponent.vue';
 
 const routes = [
-    { path: '/', component: ExampleComponent }
+    { path: '/', component: LoginComponent },
+    { path: '/register', component: RegisterComponent },
+    { path: '/passwords', component: PasswordsComponent }
 ];
 
 const router = new VueRouter({
@@ -44,6 +49,8 @@ const app = new Vue({
     router,
     el: "#app",
     components: {
-        ExampleComponent
+        LoginComponent,
+        RegisterComponent,
+        PasswordsComponent
     }
 }).$mount('#app');
