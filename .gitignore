@@ -13,3 +13,6 @@ npm-debug.log
 yarn-error.log
 /data
 /.idea/*
+/public/css/*
+/public/js/*
+/public/images/*

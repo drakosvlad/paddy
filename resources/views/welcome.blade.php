@@ -8,7 +8,7 @@
         <title>Paddy</title>
 
         <!-- Fonts -->
-        <link href="/css/app.scss" rel="stylesheet" />
+        <link href="/css/app.css" rel="stylesheet" />
     </head>
     <body>
         <div id="app">
