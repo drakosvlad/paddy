@@ -7,16 +7,17 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-body{
+body {
     font-family: 'IBM Plex Sans', sans-serif;
     background-image: url("../images/Pattern.png");
+    background-size: 20%;
 }
 
 .header {
     background: $friendly-blue-50;
     color: white;
     height: 75px;
-    box-shadow: 15px 0px 3.25px rgba(0, 0, 0, 0.25);
+    box-shadow: 15px 0 3.25px rgba(0, 0, 0, 0.25);
 
     .logo {
         line-height: 75px;
@@ -26,4 +27,28 @@ body{
         vertical-align: baseline;
         margin-left: 24.75px;
     }
+}
+
+.button-primary, .button-secondary {
+    width: 200px;
+    height: 40px;
+    display: inline-block;
+    border-radius: 50px;
+}
+
+.button-primary:focus, .button-secondary:focus {
+    outline: none;
+}
+
+.button-primary {
+    border: none;
+}
+
+.button-secondary {
+    background: transparent;
+}
+
+.input-field {
+    border: 1px solid $focused-gray-50;
+    color: $focused-gray-50;
 }
