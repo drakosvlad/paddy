@@ -12,6 +12,9 @@
     </head>
     <body>
         <div id="app">
+            <div class="header">
+                <span class="logo">Paddy</span>
+            </div>
             <router-view></router-view>
         </div>
         <script src="/js/app.js"></script>
