@@ -48,4 +48,14 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    /**
+     * Return all passwords for user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function passwords()
+    {
+        return $this->hasMany('App\Password');
+    }
 }

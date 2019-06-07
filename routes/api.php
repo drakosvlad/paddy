@@ -24,3 +24,5 @@ Route::prefix('auth')->group(function () {
 Route::get('lol', function () {
     return "kek";
 });
+
+Route::resource('passwords', 'PasswordController');
