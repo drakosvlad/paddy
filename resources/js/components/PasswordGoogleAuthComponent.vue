@@ -1,7 +1,7 @@
 <template>
     <div class="container overlay-container">
         <div class="row">
-            <h2>Enter Google Authenticator code</h2>
+            <h2>Enter Authenticator code</h2>
         </div>
         <div class="row">
             <input class="input-field form-control" type="number" id="username" name="name" placeholder="Code">
