@@ -15,7 +15,9 @@
             <div class="header">
                 <span class="logo">Paddy</span>
             </div>
-            <router-view></router-view>
+            <keep-alive>
+                <router-view></router-view>
+            </keep-alive>
         </div>
         <script src="/js/app.js"></script>
     </body>
