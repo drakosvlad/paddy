@@ -47,25 +47,7 @@
         font-size: 36px;
     }
 
-    .button-primary {
-        background-color: $lively-green-50;
-        color: white;
-    }
 
-    .button-primary:hover {
-        background-color: $lively-green-40;
-    }
-
-    .button-secondary {
-        border: 2px solid $lively-green-50;
-        color: $lively-green-50;
-    }
-
-    .button-secondary:hover {
-        background-color: $lively-green-1;
-        border: 2px solid $lively-green-40;
-        color: $lively-green-40;
-    }
 
     .link {
         text-align: right;
