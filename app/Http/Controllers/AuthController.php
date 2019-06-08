@@ -43,7 +43,9 @@ class AuthController extends Controller
     public function register()
     {
         // TODO users unique names
-        //$users = \User::where(['name' => \request('name')])->get();
+        $users = User::where(['name' => \request('name')])->get();
+        if ($users->count() != 0)
+            return response()->json(['message' => 'User with this name already exists'], 400);
         User::create([
             'name' => \request('name'),
             'password' => Hash::make(\request('password')),
