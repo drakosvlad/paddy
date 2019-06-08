@@ -24,14 +24,18 @@ const store = new Vuex.Store({
     state: {
         token: undefined,
         router: undefined,
-        passwords: undefined,
+        passwords: [{name: "Google"}, {name: "Yahoo"}],
         auth: {
-            login: "test123456",
+            login: "test",
             password: "123456"
         },
         registerAuth: {
-            login: "",
-            password: ""
+            login: "test",
+            password: "123456"
+        },
+        newPassword: {
+            name: "Yahoo",
+            password: "asdf"
         }
     },
     mutations: {
@@ -52,6 +56,9 @@ const store = new Vuex.Store({
         resetRegisterCredentials(context) {
             context.registerAuth.login = "";
             context.registerAuth.password = "";
+        },
+        pushPassword(context, password) {
+            context.passwords.push(password);
         }
     },
     getters: {
@@ -76,8 +83,8 @@ const store = new Vuex.Store({
                 config
             ).then((response) => {
                 commit('setToken', response.data.access_token);
+                dispatch('retrievePasswords');
                 state.router.push({ path: '/passwords' });
-                dispatch('retrievePasswords')
             }).catch((error) => {
                 commit('unauthorize');
                 console.log(error);
@@ -138,6 +145,29 @@ const store = new Vuex.Store({
                 commit('unauthorize');
                 console.log(error);
             });
+        },
+        addPassword({ state }) {
+            let config = {
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `bearer ${state.token}`
+                }
+            };
+            let formData = {
+                name: state.newPassword.name,
+                value: state.newPassword.password
+            };
+            Axios.post(
+                "/api/passwords",
+                formData,
+                config
+            ).then((response) => {
+                commit('pushPassword', response.data.password);
+            }).catch((error) => {
+                // TODO error handling
+                //commit('unauthorize');
+                console.log(error);
+            });
         }
     }
 });
@@ -191,6 +221,6 @@ const app = new Vue({
 
     },
     created() {
-        //this.$store.dispatch('authorize');
+        //this.$store.dispatch('register');
     }
 }).$mount('#app');
