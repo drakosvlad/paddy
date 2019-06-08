@@ -68,6 +68,8 @@
 <style scoped lang="scss">
     @import "../../../sass/_variables.scss";
 
+    $overlay-height: 250px;
+
     .veil {
         width: 100vw;
         height: 100%;
@@ -82,8 +84,8 @@
     .overlay {
         width: 100vw;
         position: fixed;
-        height: 300px;
-        top: calc(100% - 300px);
+        height: $overlay-height;
+        top: calc(100% - #{$overlay-height});
         left: 0;
         background: white;
         margin-top: 0px;
@@ -97,11 +99,11 @@
     }
 
     .swing-enter {
-        margin-top: 310px;
+        margin-top: $overlay-height + 10px;
     }
 
     .swing-leave-active {
-        margin-top: 310px;
+        margin-top: $overlay-height + 10px;
     }
 
     .fade-enter {
