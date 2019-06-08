@@ -1,5 +1,5 @@
 <template>
-    <div class="col-12 col-md-4 col-sm-6">
+    <div class="col-12 col-md-4 col-sm-6" @click="click">
         <div class="password-card">
             <p v-if="name != undefined">{{ name }}</p>
             <svg v-else class="svg-icon" viewBox="0 0 20 20">
@@ -12,7 +12,12 @@
 <script>
     export default {
         name: "Password",
-        props: ["name"]
+        props: ["name"],
+        methods: {
+            click() {
+                this.$emit('click');
+            }
+        }
     }
 </script>
 
@@ -24,6 +29,7 @@
         padding: 10px;
         box-shadow: 0 0 10px rgba(0,0,0,0.3);
         height: 100px;
+        cursor: pointer;
 
         p {
             font-weight: 400;
