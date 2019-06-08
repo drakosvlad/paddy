@@ -9,16 +9,16 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import VueRouter from 'vue-router';
+import Axios from "axios";
+
+import * as SHA from "js-sha256";
 
 Vue.use(Vuex);
 Vue.use(VueRouter);
 
-//import ExampleComponent from './components/ExampleComponent.vue';
 import LoginComponent from './components/pages/LoginComponent.vue';
 import RegisterComponent from './components/pages/RegisterComponent.vue';
 import PasswordsComponent from './components/pages/PasswordsComponent.vue';
-import * as SHA from "js-sha256";
-import Axios from "axios";
 
 const store = new Vuex.Store({
     state: {
@@ -60,13 +60,15 @@ const store = new Vuex.Store({
         }
     },
     actions: {
-        authorize({ state, commit }) {
+        authorize({ state, commit, dispatch }) {
             let formData = {
                 name: state.auth.login,
                 password: SHA.sha256(state.auth.password)
             };
             let config = {
-                "Accept": "application/json"
+                headers: {
+                    "Accept": "application/json"
+                }
             };
             Axios.post(
                 "/api/auth/login",
@@ -75,8 +77,9 @@ const store = new Vuex.Store({
             ).then((response) => {
                 commit('setToken', response.data.access_token);
                 state.router.push({ path: '/passwords' });
+                dispatch('retrievePasswords')
             }).catch((error) => {
-                commit('unathorize');
+                commit('unauthorize');
                 console.log(error);
             });
         },
@@ -86,7 +89,9 @@ const store = new Vuex.Store({
                 password: SHA.sha256(state.registerAuth.password)
             };
             let config = {
-                "Accept": "application/json"
+                headers: {
+                    "Accept": "application/json"
+                }
             };
             Axios.post(
                 "/api/auth/register",
@@ -101,15 +106,17 @@ const store = new Vuex.Store({
         },
         refreshToken({ state, commit }) {
             let config = {
-                "Accept": "application/json",
-                "Authorization": `bearer ${state.token}`
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `bearer ${state.token}`
+                }
             };
             Axios.post(
                 "/api/auth/refresh",
                 {},
                 config
             ).then((response) => {
-                commit('setToken', response.access_token);
+                commit('setToken', response.data.access_token);
             }).catch((error) => {
                 commit('unauthorize');
                 console.log(error);
@@ -117,15 +124,16 @@ const store = new Vuex.Store({
         },
         retrievePasswords({ state, commit }) {
             let config = {
-                "Accept": "application/json",
-                "Authorization": `bearer ${state.token}`
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `bearer ${state.token}`
+                }
             };
-            Axios.post(
+            Axios.get(
                 "/api/passwords",
-                {},
                 config
             ).then((response) => {
-                commit('setPasswords', response.passwords);
+                commit('setPasswords', response.data.passwords);
             }).catch((error) => {
                 commit('unauthorize');
                 console.log(error);
@@ -183,6 +191,6 @@ const app = new Vue({
 
     },
     created() {
-        this.$store.dispatch('authorize');
+        //this.$store.dispatch('authorize');
     }
 }).$mount('#app');

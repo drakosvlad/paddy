@@ -4,14 +4,14 @@
             <span class="welcome-message">Welcome!</span>
 
             <label for="username">Username:</label>
-            <input class="input-field form-control" type="text" id="username" name="username" placeholder="Username">
+            <input class="input-field form-control" type="text" id="username" name="username" placeholder="Username" v-model="auth.login">
 
             <label for="password">Password:</label>
-            <input class="input-field form-control" type="password" id="password" name="password" placeholder="Password">
+            <input class="input-field form-control" type="password" id="password" name="password" placeholder="Password" v-model="auth.password">
             <a class="link" href="#">Forgot password?</a>
 
-            <button class="button-secondary">Register</button>
-            <button class="button-primary">Login</button>
+            <button class="button-secondary" @click="register">Register</button>
+            <button class="button-primary" @click="login">Login</button>
         </div>
         <div class="col-md-6 col-sm-6 col-12">
             <img src="../../../images/Paddy.png" alt="Paddy">
@@ -21,7 +21,20 @@
 
 <script>
     export default {
-        name: "LoginComponent"
+        name: "LoginComponent",
+        computed: {
+            auth() {
+                return this.$store.state.auth;
+            }
+        },
+        methods: {
+            login() {
+                this.$store.dispatch('authorize');
+            },
+            register() {
+                this.$router.push({ path: '/register' });
+            }
+        }
     }
 </script>
 
