@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h1>Passwords</h1>
+        <span class="main-heading">Passwords</span>
         <div class="row">
             <password-card v-for="(password, index) in passwords" :key="index" :name="password.name" @click="showGoogleAuth"></password-card>
             <password-card @click="showNewPassword"></password-card>
@@ -67,8 +67,6 @@
 
 <style scoped lang="scss">
     @import "../../../sass/_variables.scss";
-
-    $overlay-height: 250px;
 
     .veil {
         width: 100vw;

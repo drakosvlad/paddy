@@ -16,11 +16,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="repeat-password">Repeat password:</label>
                     <input class="input-field form-control" type="password" id="repeat-password" name="password" placeholder="Repeat password">
                 </div>
 
-                <div class="buttons-group">
+                <div class="align-center">
                     <router-link class="login-link" to="/">Back to login</router-link>
                     <button class="btn button-primary">Register</button>
                 </div>
@@ -41,10 +40,6 @@
 
 <style scoped lang="scss">
     @import "../../../sass/_variables.scss";
-
-    .container {
-        padding: 20px 40px;
-    }
 
     .register-div {
         max-height: 400px;

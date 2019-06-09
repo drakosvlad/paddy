@@ -13,10 +13,9 @@
                 <div class="form-group">
                     <label for="password">Password:</label>
                     <input class="input-field form-control" type="password" id="password" name="password" placeholder="Password" v-model="auth.password">
-                    <a class="forgot-link" href="#">Forgot password?</a>
                 </div>
 
-                <div class="buttons-group">
+                <div class="align-center">
                     <button class="btn button-secondary" @click="register">Register</button>
                     <button class="btn button-primary" @click="login">Login</button>
                 </div>
@@ -51,10 +50,6 @@
 <style scoped lang="scss">
     @import "../../../sass/_variables.scss";
 
-    .container {
-        padding: 20px 40px;
-    }
-
     .login-div {
         max-height: 400px;
         background-color: white;
@@ -62,21 +57,6 @@
         border-radius: $card-border-radius;
         padding-top: 20px;
         padding-bottom: 10px;
-    }
-
-    .forgot-link {
-        float: right;
-        color: $focused-gray-50;
-        font-style: italic;
-    }
-
-    .forgot-link:visited {
-        color: $focused-gray-50;
-    }
-
-    .buttons-group {
-        clear: both;
-        text-align: center
     }
 
 </style>
