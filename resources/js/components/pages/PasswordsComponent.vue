@@ -10,8 +10,8 @@
         </transition>
         <transition name="swing">
             <div class="overlay" v-if="overlay">
-                <new-password-component v-if="newPassword"></new-password-component>
-                <password-google-auth-component v-if="googleAuth"></password-google-auth-component>
+                <new-password-component v-if="newPassword" @hide="disableOverlay"></new-password-component>
+                <password-google-auth-component v-if="googleAuth" @hide="disableOverlay"></password-google-auth-component>
             </div>
         </transition>
     </div>

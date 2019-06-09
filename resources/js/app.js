@@ -77,6 +77,18 @@ const store = new Vuex.Store({
             context.registerAuth.login = "";
             context.registerAuth.password = "";
         },
+        resetAuthCredentials(context) {
+            context.auth.login = "";
+            context.auth.password = "";
+        },
+        resetNewPassword(context) {
+            context.newPassword.name = "";
+            context.newPassword.password = "";
+            context.newPassword.username = "";
+        },
+        resetTOTPValue(context) {
+            context.googleAuthCode.code = "";
+        },
         pushPassword(context, password) {
             processPassword(context.cipher, password);
             context.passwords.push(password);
@@ -105,6 +117,7 @@ const store = new Vuex.Store({
             ).then((response) => {
                 commit('setToken', response.data.access_token);
                 commit('initializeCipher', state.auth.password);
+                commit('resetAuthCredentials');
                 dispatch('retrievePasswords');
                 state.router.push({ path: '/passwords' });
             }).catch((error) => {
@@ -186,6 +199,7 @@ const store = new Vuex.Store({
                 config
             ).then((response) => {
                 commit('pushPassword', response.data.password);
+                commit('resetNewPassword');
             }).catch((error) => {
                 // TODO error handling
                 //commit('unauthorize');

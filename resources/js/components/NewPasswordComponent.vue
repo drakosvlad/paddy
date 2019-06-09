@@ -25,6 +25,7 @@
         methods: {
             savePassword() {
                 this.$store.dispatch('addPassword');
+                this.$emit('hide');
             }
         }
     }
