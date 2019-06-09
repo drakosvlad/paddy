@@ -9,7 +9,7 @@
             <input class="input-field form-control" type="password" id="password" name="password" placeholder="Password" v-model="newPassword.password">
         </div>
         <div class="row">
-            <button class="btn button-primary" id="saveButton">Save</button>
+            <button class="btn button-primary" id="saveButton" @click="savePassword">Save</button>
         </div>
     </div>
 </template>
@@ -20,6 +20,11 @@
         computed: {
             newPassword() {
                 return this.$store.state.newPassword;
+            }
+        },
+        methods: {
+            savePassword() {
+                this.$store.dispatch('addPassword');
             }
         }
     }
