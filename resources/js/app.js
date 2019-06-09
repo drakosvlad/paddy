@@ -25,7 +25,7 @@ const store = new Vuex.Store({
     state: {
         token: undefined,
         router: undefined,
-        passwords: [{name: "Google"}, {name: "Yahoo"}],
+        passwords: [{name: "Google", username: "lolkek"}, {name: "Yahoo", username: "lolkek"}],
         auth: {
             login: "test",
             password: "123456"
@@ -36,7 +36,11 @@ const store = new Vuex.Store({
         },
         newPassword: {
             name: "Yahoo",
-            password: "asdf"
+            password: "asdf",
+            username: "lolkek"
+        },
+        googleAuthCode: {
+            code: ""
         }
     },
     mutations: {
@@ -156,7 +160,8 @@ const store = new Vuex.Store({
             };
             let formData = {
                 name: state.newPassword.name,
-                value: state.newPassword.password
+                value: state.newPassword.password,
+                username: state.newPassword.username
             };
             Axios.post(
                 "/api/passwords",
