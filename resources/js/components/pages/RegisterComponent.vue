@@ -7,12 +7,12 @@
 
                 <div class="form-group">
                     <label for="username">Choose username:</label>
-                    <input class="input-field form-control" type="text" id="username" name="username" placeholder="Username">
+                    <input class="input-field form-control" type="text" id="username" name="username" placeholder="Username" v-model="registerAuth.login">
                 </div>
 
                 <div class="form-group">
                     <label for="create-password">Create master password:</label>
-                    <input class="input-field form-control" type="password" id="create-password" name="password" placeholder="Password">
+                    <input class="input-field form-control" type="password" id="create-password" name="password" placeholder="Password" v-model="registerAuth.password">
                 </div>
 
                 <div class="form-group">
@@ -21,7 +21,7 @@
 
                 <div class="align-center">
                     <router-link class="login-link" to="/">Back to login</router-link>
-                    <button class="btn button-primary">Register</button>
+                    <button class="btn button-primary" @click="register">Register</button>
                 </div>
 
             </div>
@@ -34,7 +34,17 @@
 
 <script>
     export default {
-        name: "RegisterComponent"
+        name: "RegisterComponent",
+        computed: {
+            registerAuth() {
+                return this.$store.state.registerAuth;
+            }
+        },
+        methods: {
+            register() {
+                this.$store.dispatch("register");
+            }
+        }
     }
 </script>
 
