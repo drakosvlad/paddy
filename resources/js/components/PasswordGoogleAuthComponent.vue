@@ -4,7 +4,7 @@
             <h2>Enter Authenticator code</h2>
         </div>
         <div class="row">
-            <input class="input-field form-control" type="number" id="username" name="name" placeholder="Code">
+            <input class="input-field form-control" type="number" id="username" name="name" placeholder="Code" v-model="googleAuthCode.code">
         </div>
         <div class="row">
             <button class="btn button-primary" id="saveButton">Get password</button>
@@ -14,7 +14,12 @@
 
 <script>
     export default {
-        name: "PasswordGoogleAuthComponent"
+        name: "PasswordGoogleAuthComponent",
+        computed: {
+            googleAuthCode() {
+                return this.$store.state.googleAuthCode;
+            }
+        }
     }
 </script>
 

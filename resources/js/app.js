@@ -12,6 +12,7 @@ import VueRouter from 'vue-router';
 import Axios from "axios";
 
 import * as SHA from "js-sha256";
+import aes256 from "aes256";
 
 Vue.use(Vuex);
 Vue.use(VueRouter);
@@ -21,11 +22,17 @@ import RegisterComponent from './components/pages/RegisterComponent.vue';
 import PasswordsComponent from './components/pages/PasswordsComponent.vue';
 import SettingsComponent from "./components/pages/SettingsComponent";
 
+function processPassword(cipher, password) {
+    password.name = cipher.decrypt(password.name);
+    password.value = cipher.decrypt(password.value);
+    password.username = cipher.decrypt(password.username);
+}
+
 const store = new Vuex.Store({
     state: {
         token: undefined,
         router: undefined,
-        passwords: [{name: "Google"}, {name: "Yahoo"}],
+        passwords: [{name: "Google", username: "lolkek"}, {name: "Yahoo", username: "lolkek"}],
         auth: {
             login: "test",
             password: "123456"
@@ -36,8 +43,13 @@ const store = new Vuex.Store({
         },
         newPassword: {
             name: "Yahoo",
-            password: "asdf"
-        }
+            password: "asdf",
+            username: "lolkek"
+        },
+        googleAuthCode: {
+            code: ""
+        },
+        cipher: undefined
     },
     mutations: {
         setRouter(context, router) {
@@ -46,12 +58,19 @@ const store = new Vuex.Store({
         setToken(context, token) {
             context.token = token;
         },
+        initializeCipher(context, key) {
+            context.cipher = aes256.createCipher(key);
+        },
         unauthorize(context) {
+            context.cipher = undefined;
             context.token = undefined;
             context.auth.password = "";
             context.router.push({ path: '/' });
         },
         setPasswords(context, passwords) {
+            passwords.forEach(password => {
+                processPassword(context.cipher, password);
+            });
             context.passwords = passwords;
         },
         resetRegisterCredentials(context) {
@@ -59,6 +78,7 @@ const store = new Vuex.Store({
             context.registerAuth.password = "";
         },
         pushPassword(context, password) {
+            processPassword(context.cipher, password);
             context.passwords.push(password);
         }
     },
@@ -84,6 +104,7 @@ const store = new Vuex.Store({
                 config
             ).then((response) => {
                 commit('setToken', response.data.access_token);
+                commit('initializeCipher', state.auth.password);
                 dispatch('retrievePasswords');
                 state.router.push({ path: '/passwords' });
             }).catch((error) => {
@@ -147,7 +168,7 @@ const store = new Vuex.Store({
                 console.log(error);
             });
         },
-        addPassword({ state }) {
+        addPassword({ state, commit }) {
             let config = {
                 headers: {
                     "Accept": "application/json",
@@ -155,8 +176,9 @@ const store = new Vuex.Store({
                 }
             };
             let formData = {
-                name: state.newPassword.name,
-                value: state.newPassword.password
+                name: state.cipher.encrypt(state.newPassword.name),
+                value: state.cipher.encrypt(state.newPassword.password),
+                username: state.cipher.encrypt(state.newPassword.username)
             };
             Axios.post(
                 "/api/passwords",
