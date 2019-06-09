@@ -13,9 +13,6 @@
                 <div class="form-group">
                     <label for="create-password">Create master password:</label>
                     <input class="input-field form-control" type="password" id="create-password" name="password" placeholder="Password" v-model="registerAuth.password">
-                </div>
-
-                <div class="form-group">
                     <input class="input-field form-control" type="password" id="repeat-password" name="password" placeholder="Repeat password">
                 </div>
 

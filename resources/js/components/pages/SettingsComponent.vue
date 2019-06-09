@@ -15,13 +15,7 @@
             <div class="form-group">
                 <label for="prev-password">Change password:</label>
                 <input class="input-field form-control" type="password" id="prev-password" name="password" placeholder="Previous password">
-            </div>
-
-            <div class="form-group">
                 <input class="input-field form-control" type="password" id="new-password" name="password" placeholder="New password">
-            </div>
-
-            <div class="form-group">
                 <input class="input-field form-control" type="password" id="repeat-password" name="password" placeholder="Repeat password">
                 <div class="align-center">
                     <button class="btn button-secondary">Change password</button>
