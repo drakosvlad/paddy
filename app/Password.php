@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Password extends Model
 {
     protected $fillable = [
-        'user_id', 'name', 'value',
+        'user_id', 'name', 'value', 'username',
     ];
 
     /**
@@ -15,7 +15,7 @@ class Password extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function User()
+    public function user()
     {
         return $this->belongsTo('\App\User');
     }

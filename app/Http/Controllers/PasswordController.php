@@ -48,7 +48,8 @@ class PasswordController extends Controller
         $pass = \App\Password::create([
             'user_id' => auth()->user()->id,
             'name' => request('name'),
-            'value' => request('value')
+            'value' => request('value'),
+            'username' => request('username')
         ]);
 
         return response()->json(['password' => $pass]);
@@ -64,8 +65,7 @@ class PasswordController extends Controller
     {
         $item = \App\Password::find($id);
 
-        if ($item == null || $item->user_id != auth()->user()->id)
-        {
+        if ($item == null || $item->user_id != auth()->user()->id) {
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
@@ -93,24 +93,24 @@ class PasswordController extends Controller
     public function update(Request $request, $id)
     {
         $pass = \App\Password::find($id);
-        if ($pass == null)
-        {
+        if ($pass == null) {
             return response()->json(['message' => 'Not found'], 404);
         }
 
-        if($pass->user_id != auth()->user()->id)
-        {
+        if ($pass->user_id != auth()->user()->id) {
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
-        if (request('name') != null)
-        {
+        if (request('name') != null) {
             $pass->name = request('name');
         }
 
-        if (request('value') != null)
-        {
+        if (request('value') != null) {
             $pass->value = request('value');
+        }
+
+        if (request('username') != null) {
+            $pass->value = request('username');
         }
 
         $pass->save();
@@ -128,8 +128,7 @@ class PasswordController extends Controller
     {
         $item = \App\Password::find($id);
 
-        if ($item == null || $item->user_id != auth()->user()->id)
-        {
+        if ($item == null || $item->user_id != auth()->user()->id) {
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
