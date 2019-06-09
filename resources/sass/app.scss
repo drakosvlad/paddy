@@ -79,6 +79,7 @@ body {
 
 .input-field {
     border: 1px solid $focused-gray-50;
+    margin-bottom: 5px;
 }
 
 .input-field::placeholder {
@@ -103,17 +104,4 @@ body {
 
 .overlay-container {
     max-width: 500px;
-
-    h2 {
-        margin-bottom: 20px;
-    }
-
-    input {
-        margin-bottom: 5px;
-    }
-
-    #saveButton {
-        position: absolute;
-        bottom: 10px;
-    }
 }

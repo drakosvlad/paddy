@@ -89,11 +89,6 @@
         margin-top: 0;
         transition: margin-top .3s;
         box-shadow: $shadow;
-        padding-top: 20px;
-
-
-        padding-left: 15px;
-        padding-right: 15px;
     }
 
     .swing-enter {
