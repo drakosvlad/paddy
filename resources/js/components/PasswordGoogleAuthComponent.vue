@@ -7,7 +7,7 @@
             <input class="input-field form-control" type="number" id="username" name="name" placeholder="Code">
         </div>
         <div class="row">
-            <button class="button-primary" id="saveButton">Get password</button>
+            <button class="btn button-primary" id="saveButton">Get password</button>
         </div>
     </div>
 </template>

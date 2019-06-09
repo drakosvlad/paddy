@@ -8,7 +8,7 @@
             <input class="input-field form-control" type="password" id="password" name="password" placeholder="Password">
         </div>
         <div class="row">
-            <button class="button-primary" id="saveButton">Save</button>
+            <button class="btn button-primary" id="saveButton">Save</button>
         </div>
     </div>
 </template>

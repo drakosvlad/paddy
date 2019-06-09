@@ -1,5 +1,5 @@
 <template>
-    <div class="col-12 col-md-4 col-sm-6" @click="click">
+    <div class="col-12 col-sm-6 col-md-4" @click="click">
         <div class="password-card">
             <p v-if="name != undefined">{{ name }}</p>
             <svg v-else class="svg-icon" viewBox="0 0 25 25">
@@ -25,7 +25,7 @@
     @import "../../sass/_variables.scss";
 
     .password-card {
-        border-radius: 10px;
+        border-radius: $card-border-radius;
         background: white;
         margin: 5px;
         padding: 10px;

@@ -16,11 +16,11 @@ body {
 .header {
     background: $friendly-blue-50;
     color: white;
-    height: 75px;
-    box-shadow: 15px 0 3.25px rgba(0, 0, 0, 0.25);
+    height: $header-height;
+    box-shadow: $shadow;
 
     .logo {
-        line-height: 75px;
+        line-height: $header-height;
         font-size: 36px;
         font-weight: bold;
         font-style: italic;
@@ -29,12 +29,19 @@ body {
     }
 }
 
+.main-heading {
+    color: $friendly-blue-50;
+    font-weight: bold;
+    font-size: 36px;
+}
+
 .button-primary, .button-secondary {
     min-width: 100px;
+    max-width: 200px;
     height: 40px;
     display: inline-block;
     border-radius: 50px;
-    margin: 10px 0;
+    margin: 5px;
 }
 
 .button-primary {
@@ -63,6 +70,17 @@ body {
 .input-field {
     border: 1px solid $focused-gray-50;
     color: $focused-gray-50;
+}
+
+.img-paddy-div {
+    background: url("../images/Vector.png") no-repeat bottom;
+    background-size: 80%;
+    -webkit-filter: drop-shadow($shadow);
+    filter: drop-shadow($shadow);
+}
+
+.img-paddy {
+    width: 100%;
 }
 
 .overlay-container {
