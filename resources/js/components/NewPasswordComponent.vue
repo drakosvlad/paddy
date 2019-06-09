@@ -4,7 +4,8 @@
             <h2>Create new password</h2>
         </div>
         <div class="row">
-            <input class="input-field form-control" type="text" id="username" name="name" placeholder="Name">
+            <input class="input-field form-control" type="text" id="name" name="name" placeholder="Account name">
+            <input class="input-field form-control" type="text" id="username" name="username" placeholder="Username">
             <input class="input-field form-control" type="password" id="password" name="password" placeholder="Password">
         </div>
         <div class="row">

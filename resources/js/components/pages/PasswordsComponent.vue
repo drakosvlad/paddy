@@ -68,7 +68,7 @@
 <style scoped lang="scss">
     @import "../../../sass/_variables.scss";
 
-    $overlay-height: 250px;
+    $overlay-height: 280px;
 
     .veil {
         width: 100vw;
