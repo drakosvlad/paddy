@@ -19,6 +19,7 @@ Vue.use(VueRouter);
 import LoginComponent from './components/pages/LoginComponent.vue';
 import RegisterComponent from './components/pages/RegisterComponent.vue';
 import PasswordsComponent from './components/pages/PasswordsComponent.vue';
+import SettingsComponent from "./components/pages/SettingsComponent";
 
 const store = new Vuex.Store({
     state: {
@@ -175,7 +176,8 @@ const store = new Vuex.Store({
 const routes = [
     { path: '/', component: LoginComponent },
     { path: '/register', component: RegisterComponent },
-    { path: '/passwords', component: PasswordsComponent }
+    { path: '/passwords', component: PasswordsComponent },
+    { path: '/settings', component: SettingsComponent }
 ];
 
 const router = new VueRouter({

@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="buttons-group">
-                    <a class="login-link" href="#">Back to login</a>
+                    <router-link class="login-link" to="/">Back to login</router-link>
                     <button class="btn button-primary">Register</button>
                 </div>
 
