@@ -140,7 +140,7 @@ const store = new Vuex.Store({
                 formData,
                 config
             ).then((response) => {
-                state.router.push({ path: '/login' });
+                state.router.push({ path: '/' });
             }).catch((error) => {
                 console.log(error);
             });
