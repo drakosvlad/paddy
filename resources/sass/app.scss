@@ -30,47 +30,39 @@ body {
 }
 
 .button-primary, .button-secondary {
-    width: 200px;
+    min-width: 100px;
     height: 40px;
     display: inline-block;
     border-radius: 50px;
-}
-
-.button-primary:focus, .button-secondary:focus {
-    outline: none;
-}
-
-.button-primary {
-    border: none;
-}
-
-.button-secondary {
-    background: transparent;
-}
-
-.input-field {
-    border: 1px solid $focused-gray-50;
-    color: $focused-gray-50;
+    margin: 10px 0;
 }
 
 .button-primary {
     background-color: $lively-green-50;
+    border: none;
     color: white;
+}
+
+.button-secondary {
+    background: transparent;
+    border: 2px solid $lively-green-50;
+    color: $lively-green-50;
 }
 
 .button-primary:hover {
     background-color: $lively-green-40;
-}
-
-.button-secondary {
-    border: 2px solid $lively-green-50;
-    color: $lively-green-50;
+    color: white;
 }
 
 .button-secondary:hover {
     background-color: $lively-green-1;
     border: 2px solid $lively-green-40;
     color: $lively-green-40;
+}
+
+.input-field {
+    border: 1px solid $focused-gray-50;
+    color: $focused-gray-50;
 }
 
 .overlay-container {

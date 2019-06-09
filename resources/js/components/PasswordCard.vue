@@ -29,7 +29,7 @@
         background: white;
         margin: 5px;
         padding: 10px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        box-shadow: $shadow;
         height: 100px;
         cursor: pointer;
 

@@ -88,9 +88,9 @@
         top: calc(100% - #{$overlay-height});
         left: 0;
         background: white;
-        margin-top: 0px;
+        margin-top: 0;
         transition: margin-top .3s;
-        box-shadow: 0 0 10px rgba(0,0,0,0.4);
+        box-shadow: $shadow;
         padding-top: 20px;
 
 
