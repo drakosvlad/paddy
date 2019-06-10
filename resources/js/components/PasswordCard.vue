@@ -1,7 +1,10 @@
 <template>
-    <div class="col-12 col-sm-6 col-md-4" @click="click">
+    <div class="col-12 col-md-6 col-lg-4" @click="click">
         <div class="password-card">
-            <span class="acc-name" v-if="name != undefined">{{ name }}</span>
+            <span v-if="name != undefined"><img class="password-icon" src="../../images/rubbish-bin.png" alt="delete password"></span>
+            <span v-if="name != undefined"><img class="password-icon" src="../../images/pencil-outline.png" alt="delete password"></span>
+            <span v-if="name != undefined" class="acc-name">{{ name }}</span>
+            <br v-if="name != undefined" />
             <span class="acc-username" v-if="name != undefined">Username: <i>{{ username }}</i></span>
             <svg v-else class="svg-icon" viewBox="0 0 25 25">
                 <path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/>
@@ -30,17 +33,15 @@
     .password-card {
         border-radius: $card-border-radius;
         background: white;
-        margin: 5px;
+        margin: 10px 0;
         padding: 10px;
         box-shadow: $shadow;
         height: 90px;
-        cursor: pointer;
 
         .acc-name {
             color: $friendly-blue-50;
             font-size: 24px;
             font-weight: bold;
-            display: block;
         }
 
         .acc-username {
@@ -54,5 +55,12 @@
             display: block;
             fill: $focused-gray-50;
         }
+
+        .password-icon {
+            float: right;
+            height: 32px;
+            margin: 0 5px;
+        }
     }
+
 </style>
