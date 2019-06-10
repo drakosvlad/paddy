@@ -2,7 +2,7 @@
     <div class="col-12 col-sm-6 col-md-4" @click="click">
         <div class="password-card">
             <span class="acc-name" v-if="name != undefined">{{ name }}</span>
-            <span class="acc-username" v-if="name != undefined">Username: <i>{{ name }}</i></span>
+            <span class="acc-username" v-if="name != undefined">Username: <i>{{ username }}</i></span>
             <svg v-else class="svg-icon" viewBox="0 0 25 25">
                 <path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/>
             </svg>
@@ -15,7 +15,7 @@
 <script>
     export default {
         name: "Password",
-        props: ["name"],
+        props: ["name", "username"],
         methods: {
             click() {
                 this.$emit('click');

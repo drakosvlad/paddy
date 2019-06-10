@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row">
-            <password-card v-for="(password, index) in passwords" :key="index" :name="password.name" @click="showGoogleAuth"></password-card>
+            <password-card v-for="(password, index) in passwords" :key="index" :name="password.name" :username="password.username" @click="showGoogleAuth(index)"></password-card>
             <password-card @click="showNewPassword"></password-card>
         </div>
         <transition name="fade">
@@ -37,7 +37,6 @@
         },
         computed: {
             passwords() {
-                console.log(this.$store.state.passwords);
                 return this.$store.state.passwords;
             }
         },
@@ -55,7 +54,8 @@
                 this.newPassword = true;
                 this.googleAuth = false;
             },
-            showGoogleAuth() {
+            showGoogleAuth(key) {
+                this.$store.commit('setSelectedPassword', key)
                 this.overlay = true;
                 this.newPassword = false;
                 this.googleAuth = true;

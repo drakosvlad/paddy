@@ -13,7 +13,9 @@
                 <div class="form-group">
                     <label for="create-password">Create master password:</label>
                     <input class="input-field form-control" type="password" id="create-password" name="password" placeholder="Password" v-model="registerAuth.password">
-                    <input class="input-field form-control" type="password" id="repeat-password" name="password" placeholder="Repeat password">
+                    <img id="qrCode" :src="registerAuth.qrCodePath" />
+                    <label for="totp-code">Enter authenticator code:</label>
+                    <input class="input-field form-control" type="password" id="totp-code" name="totp-code" placeholder="Authenticator code" v-model="registerAuth.totpCode">
                 </div>
 
                 <div class="align-center">
@@ -41,6 +43,9 @@
             register() {
                 this.$store.dispatch("register");
             }
+        },
+        created() {
+            this.$store.dispatch('initializeAuthenticator');
         }
     }
 </script>
@@ -49,7 +54,7 @@
     @import "../../../sass/_variables.scss";
 
     .register-div {
-        max-height: 400px;
+        max-height: 600px;
         background-color: white;
         box-shadow: $shadow;
         border-radius: $card-border-radius;
@@ -63,6 +68,11 @@
 
     .login-link:visited {
         color: $focused-gray-50;
+    }
+
+    #qrCode {
+        max-width: 150px;
+        display: block;
     }
 
 </style>

@@ -13,6 +13,8 @@ import Axios from "axios";
 
 import * as SHA from "js-sha256";
 import aes256 from "aes256";
+import speakeasy from 'speakeasy';
+import QRCode from 'qrcode';
 
 Vue.use(Vuex);
 Vue.use(VueRouter);
@@ -24,13 +26,26 @@ import SettingsComponent from "./components/pages/SettingsComponent";
 
 function processPassword(cipher, password) {
     password.name = cipher.decrypt(password.name);
-    password.value = cipher.decrypt(password.value);
     password.username = cipher.decrypt(password.username);
 }
+
+const copyToClipboard = str => {
+    const el = document.createElement('textarea');
+    el.value = str;
+    el.setAttribute('readonly', '');
+    el.style.position = 'absolute';
+    el.style.left = '-9999px';
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+};
 
 const store = new Vuex.Store({
     state: {
         token: undefined,
+        selectedPassword: undefined,
+        totpSecret: undefined,
         router: undefined,
         passwords: [{name: "Google", username: "lolkek"}, {name: "Yahoo", username: "lolkek"}],
         auth: {
@@ -39,7 +54,10 @@ const store = new Vuex.Store({
         },
         registerAuth: {
             login: "test",
-            password: "123456"
+            password: "123456",
+            totpCode: "",
+            secret: speakeasy.generateSecret(),
+            qrCodePath: ""
         },
         newPassword: {
             name: "Yahoo",
@@ -63,6 +81,7 @@ const store = new Vuex.Store({
         },
         unauthorize(context) {
             context.cipher = undefined;
+            context.totpSecret = undefined;
             context.token = undefined;
             context.auth.password = "";
             context.router.push({ path: '/' });
@@ -92,11 +111,36 @@ const store = new Vuex.Store({
         pushPassword(context, password) {
             processPassword(context.cipher, password);
             context.passwords.push(password);
+        },
+        setQRCodePath(context, path) {
+            context.registerAuth.qrCodePath = path;
+        },
+        setSelectedPassword(context, index) {
+            context.selectedPassword = index;
+        },
+        setTOTPSecret(context, secret) {
+            context.totpSecret = secret;
         }
     },
     getters: {
         isAuthorized(context) {
             return context.token !== undefined;
+        },
+        getPassword(context) {
+            let verified = speakeasy.totp.verify({
+                secret: context.totpSecret,
+                encoding: 'ascii',
+                token: context.googleAuthCode.code
+            });
+
+            if (verified) {
+                let password = context.cipher.decrypt(context.passwords[context.selectedPassword].value);
+                if (password !== undefined) {
+                    copyToClipboard(password);
+                }
+                return context.cipher.decrypt(context.passwords[context.selectedPassword].value);
+            }
+            return undefined;
         }
     },
     actions: {
@@ -119,6 +163,7 @@ const store = new Vuex.Store({
                 commit('initializeCipher', state.auth.password);
                 commit('resetAuthCredentials');
                 dispatch('retrievePasswords');
+                dispatch('initializeTotpSecret');
                 state.router.push({ path: '/passwords' });
             }).catch((error) => {
                 commit('unauthorize');
@@ -126,10 +171,20 @@ const store = new Vuex.Store({
             });
         },
         register({ state, commit }) {
+            let verified = speakeasy.totp.verify({ secret: state.registerAuth.secret.ascii, encoding: 'ascii', token: state.registerAuth.totpCode });
+            if (!verified) {
+                console.log("Wrong totp code");
+                return;
+            }
+
+            commit('initializeCipher', state.registerAuth.password);
+
             let formData = {
                 name: state.registerAuth.login,
-                password: SHA.sha256(state.registerAuth.password)
+                password: SHA.sha256(state.registerAuth.password),
+                totp_secret: state.cipher.encrypt(state.registerAuth.secret.ascii)
             };
+
             let config = {
                 headers: {
                     "Accept": "application/json"
@@ -204,6 +259,27 @@ const store = new Vuex.Store({
                 // TODO error handling
                 //commit('unauthorize');
                 console.log(error);
+            });
+        },
+        initializeAuthenticator({ state, commit }) {
+            QRCode.toDataURL(state.registerAuth.secret.otpauth_url, (err, data_url) => {
+                commit('setQRCodePath', data_url);
+            });
+        },
+        initializeTotpSecret({ state, commit }) {
+            let config = {
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `bearer ${state.token}`
+                }
+            };
+            Axios.get(
+                '/api/auth/me',
+                config
+            ).then((response) => {
+                commit('setTOTPSecret', state.cipher.decrypt(response.data.totp_secret));
+            }).catch((error) => {
+                this.commit('unauthorize');
             });
         }
     }

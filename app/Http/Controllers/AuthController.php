@@ -50,7 +50,7 @@ class AuthController extends Controller
         User::create([
             'name' => \request('name'),
             'password' => Hash::make(\request('password')),
-            'totp_secret' => '',
+            'totp_secret' => \request('totp_secret'),
         ]);
         // TODO totp
 
