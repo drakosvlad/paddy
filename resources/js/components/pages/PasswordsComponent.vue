@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row">
-            <password-card v-for="(password, index) in passwords" :key="index" :name="password.name" :username="password.username" @click="showGoogleAuth(index)"></password-card>
+            <password-card v-for="(password, index) in passwords" :key="index" :name="password.name" :username="password.username" @click="showGoogleAuth(index)" @edit="showEdit(index)" @delete="showDelete(index)"></password-card>
             <password-card @click="showNewPassword"></password-card>
         </div>
         <transition name="fade">
@@ -9,8 +9,9 @@
         </transition>
         <transition name="swing">
             <div class="overlay" v-if="overlay">
-                <new-password-component v-if="newPassword" @hide="disableOverlay"></new-password-component>
-                <password-google-auth-component v-if="googleAuth" @hide="disableOverlay"></password-google-auth-component>
+                <keep-alive>
+                    <component :is="currentOverlay" @hide="disableOverlay"></component>
+                </keep-alive>
             </div>
         </transition>
     </div>
@@ -20,16 +21,21 @@
     import PasswordCard from '../PasswordCard';
     import NewPasswordComponent from '../NewPasswordComponent';
     import PasswordGoogleAuthComponent from '../PasswordGoogleAuthComponent';
+    import PasswordEditComponent from '../PasswordEditComponent';
+    import PasswordDeleteComponent from '../PasswordDeleteComponent';
 
     export default {
         name: "PasswordsComponent",
         components: {
             PasswordCard,
             NewPasswordComponent,
-            PasswordGoogleAuthComponent
+            PasswordGoogleAuthComponent,
+            PasswordEditComponent,
+            PasswordDeleteComponent
         },
         data: function() {
             return {
+                currentOverlay: "",
                 overlay: false,
                 newPassword: false,
                 googleAuth: false
@@ -46,20 +52,27 @@
         methods: {
             disableOverlay() {
                 this.overlay = false;
-                this.newPassword = false;
-                this.googleAuth = false;
             },
             showNewPassword() {
+                this.currentOverlay = "NewPasswordComponent";
                 this.overlay = true;
-                this.newPassword = true;
-                this.googleAuth = false;
             },
             showGoogleAuth(key) {
-                this.$store.commit('setSelectedPassword', key)
+                this.$store.commit('setSelectedPassword', key);
+                this.currentOverlay = "PasswordGoogleAuthComponent";
                 this.overlay = true;
-                this.newPassword = false;
-                this.googleAuth = true;
-            }
+            },
+            showEdit(key) {
+                this.$store.commit('setSelectedPassword', key);
+                this.$store.commit('updateEditPassword');
+                this.currentOverlay = "PasswordEditComponent";
+                this.overlay = true;
+            },
+            showDelete(key) {
+                this.$store.commit('setSelectedPassword', key);
+                this.currentOverlay = "PasswordDeleteComponent";
+                this.overlay = true;
+            },
         }
     }
 </script>

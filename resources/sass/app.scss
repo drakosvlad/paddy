@@ -107,3 +107,9 @@ body {
 .overlay-container {
     max-width: 500px;
 }
+
+.button-red {
+    background: white;
+    color: $danger-red-50;
+    border-color: $danger-red-50;
+}

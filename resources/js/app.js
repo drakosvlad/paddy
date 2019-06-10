@@ -49,20 +49,25 @@ const store = new Vuex.Store({
         router: undefined,
         passwords: [{name: "Google", username: "lolkek"}, {name: "Yahoo", username: "lolkek"}],
         auth: {
-            login: "test",
-            password: "123456"
+            login: "",
+            password: ""
         },
         registerAuth: {
-            login: "test",
-            password: "123456",
+            login: "",
+            password: "",
             totpCode: "",
             secret: speakeasy.generateSecret(),
             qrCodePath: ""
         },
         newPassword: {
-            name: "Yahoo",
-            password: "asdf",
-            username: "lolkek"
+            name: "",
+            password: "",
+            username: ""
+        },
+        editPassword: {
+            name: "",
+            password: "",
+            username: ""
         },
         googleAuthCode: {
             code: ""
@@ -120,7 +125,25 @@ const store = new Vuex.Store({
         },
         setTOTPSecret(context, secret) {
             context.totpSecret = secret;
-        }
+        },
+        updateEditPassword(context) {
+            context.editPassword.name = context.passwords[context.selectedPassword].name;
+            context.editPassword.username = context.passwords[context.selectedPassword].username;
+            context.editPassword.password = "";
+        },
+        editPasswordApply(context) {
+            context.passwords[context.selectedPassword].name = context.editPassword.name;
+            context.passwords[context.selectedPassword].username = context.editPassword.username;
+            context.passwords[context.selectedPassword].password = context.cipher.encrypt(context.editPassword.password);
+        },
+        resetEditPassword(context) {
+            context.editPassword.name = "";
+            context.editPassword.password = "";
+            context.editPassword.username = "";
+        },
+        deletePasswordApply(context) {
+            context.passwords.splice(context.selectedPassword, 1);
+        },
     },
     getters: {
         isAuthorized(context) {
@@ -255,6 +278,54 @@ const store = new Vuex.Store({
             ).then((response) => {
                 commit('pushPassword', response.data.password);
                 commit('resetNewPassword');
+            }).catch((error) => {
+                // TODO error handling
+                //commit('unauthorize');
+                console.log(error);
+            });
+        },
+        editPassword({ state, commit }) {
+            let config = {
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `bearer ${state.token}`
+                }
+            };
+            let formData = {
+                name: state.cipher.encrypt(state.editPassword.name),
+                value: state.cipher.encrypt(state.editPassword.password),
+                username: state.cipher.encrypt(state.editPassword.username),
+                _method: "PUT"
+            };
+            Axios.post(
+                "/api/passwords/" + state.passwords[state.selectedPassword].id,
+                formData,
+                config
+            ).then((response) => {
+                commit('editPasswordApply', response.data.password);
+                commit('resetEditPassword');
+            }).catch((error) => {
+                // TODO error handling
+                //commit('unauthorize');
+                console.log(error);
+            });
+        },
+        deletePassword({ state, commit }) {
+            let config = {
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `bearer ${state.token}`
+                }
+            };
+            let formData = {
+                _method: "DELETE"
+            };
+            Axios.post(
+                "/api/passwords/" + state.passwords[state.selectedPassword].id,
+                formData,
+                config
+            ).then((response) => {
+                commit('deletePasswordApply', response.data.password);
             }).catch((error) => {
                 // TODO error handling
                 //commit('unauthorize');
