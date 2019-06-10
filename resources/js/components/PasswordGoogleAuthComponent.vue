@@ -1,5 +1,6 @@
 <template>
     <div class="container overlay-container">
+
         <div class="form-group">
             <label for="authCode">Enter Authenticator code:</label>
             <input class="input-field form-control" type="number" id="authCode" name="authCode" placeholder="Code" v-model="googleAuthCode.code">

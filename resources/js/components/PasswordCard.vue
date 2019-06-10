@@ -2,6 +2,7 @@
     <div class="col-12 col-sm-6 col-md-4" @click="click">
         <div class="password-card">
             <span class="acc-name" v-if="name != undefined">{{ name }}</span>
+            <span class="acc-username" v-if="name != undefined">Username: <i>{{ name }}</i></span>
             <svg v-else class="svg-icon" viewBox="0 0 25 25">
                 <path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/>
             </svg>
@@ -32,13 +33,18 @@
         margin: 5px;
         padding: 10px;
         box-shadow: $shadow;
-        height: 100px;
+        height: 90px;
         cursor: pointer;
 
         .acc-name {
-            font-weight: 400;
-            font-size: 22pt;
-            margin-left: 30px;
+            color: $friendly-blue-50;
+            font-size: 24px;
+            font-weight: bold;
+            display: block;
+        }
+
+        .acc-username {
+            font-size: 18px;
         }
 
         .svg-icon {

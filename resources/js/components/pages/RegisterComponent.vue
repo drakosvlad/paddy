@@ -22,9 +22,9 @@
                 </div>
 
             </div>
-            <div class="img-paddy-div col-12 col-md-6">
-                <img class="img-paddy" src="../../../images/Paddy.png" alt="Paddy">
-            </div>
+
+            <img class="img-paddy col-12 col-md-6" src="../../../images/Paddy_with_bg.png" alt="Paddy">
+
         </div>
     </div>
 </template>
@@ -64,10 +64,5 @@
     .login-link:visited {
         color: $focused-gray-50;
     }
-
-    .buttons-group {
-        text-align: center
-    }
-
 
 </style>

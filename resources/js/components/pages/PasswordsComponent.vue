@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-        <span class="main-heading">Passwords</span>
         <div class="row">
             <password-card v-for="(password, index) in passwords" :key="index" :name="password.name" @click="showGoogleAuth"></password-card>
             <password-card @click="showNewPassword"></password-card>
@@ -106,6 +105,5 @@
     .fade-leave-active {
         opacity: 0;
     }
-
 
 </style>

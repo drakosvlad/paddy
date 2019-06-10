@@ -24,8 +24,7 @@ body {
         font-size: 36px;
         font-weight: bold;
         font-style: italic;
-        vertical-align: baseline;
-        margin-left: 24.75px;
+        margin-left: 20px;
     }
 }
 
@@ -56,7 +55,7 @@ body {
 
 .button-secondary {
     background: transparent;
-    border: 2px solid $lively-green-50;
+    border: 1px solid $lively-green-50;
     color: $lively-green-50;
 }
 
@@ -66,15 +65,8 @@ body {
 }
 
 .button-secondary:hover {
-    /*
-    background-color: $lively-green-1;
-    border: 2px solid $lively-green-40;
-    color: $lively-green-40;
-    */
-
     background-color: $lively-green-50;
     color: white;
-
 }
 
 .input-field {
@@ -91,15 +83,11 @@ body {
     text-align: center
 }
 
-.img-paddy-div {
-    background: url("../images/Vector.png") no-repeat bottom;
-    background-size: 80%;
-    -webkit-filter: drop-shadow($shadow);
-    filter: drop-shadow($shadow);
-}
-
 .img-paddy {
-    width: 100%;
+    filter: drop-shadow($shadow);
+    padding: 20px;
+    max-height: 450px;
+    object-fit: contain;
 }
 
 .overlay-container {
