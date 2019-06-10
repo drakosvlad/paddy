@@ -428,8 +428,15 @@ const app = new Vue({
 
         }
     },
+    computed: {
+        isAuthorized() {
+            return this.$store.getters.isAuthorized;
+        }
+    },
     methods: {
-
+        logout() {
+            this.$store.commit('unauthorize');
+        }
     },
     created() {
         //this.$store.dispatch('register');

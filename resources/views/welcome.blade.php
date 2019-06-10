@@ -14,7 +14,7 @@
         <div id="app">
             <div class="header">
                 <span class="logo">Paddy</span>
-                <button class="btn" id="button-secondary-white">Log out</button>
+                <button v-if="isAuthorized" class="btn" id="button-secondary-white" @click="logout">Log out</button>
             </div>
             <keep-alive>
                 <router-view></router-view>
