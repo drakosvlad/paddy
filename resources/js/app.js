@@ -357,10 +357,32 @@ const store = new Vuex.Store({
 });
 
 const routes = [
-    { path: '/', component: LoginComponent },
-    { path: '/register', component: RegisterComponent },
-    { path: '/passwords', component: PasswordsComponent },
-    { path: '/settings', component: SettingsComponent }
+    {
+        path: '/',
+        component: LoginComponent,
+    },
+    {
+        path: '/register',
+        component: RegisterComponent
+    },
+    {
+        path: '/passwords',
+        component: PasswordsComponent,
+        beforeEnter: (to, from, next) => {
+            if (!store.getters.isAuthorized) {
+                next('/');
+            }
+        }
+    },
+    {
+        path: '/settings',
+        component: SettingsComponent,
+        beforeEnter: (to, from, next) => {
+            if (!store.getters.isAuthorized) {
+                next('/');
+            }
+        }
+    }
 ];
 
 const router = new VueRouter({
