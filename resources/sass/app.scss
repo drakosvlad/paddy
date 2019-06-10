@@ -113,3 +113,17 @@ body {
     color: $danger-red-50;
     border-color: $danger-red-50;
 }
+
+.notifications {
+    position: absolute;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.fade-enter {
+    opacity: 0 !important;
+}
+
+.fade-leave-active {
+    opacity: 0 !important;
+}

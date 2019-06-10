@@ -23,9 +23,10 @@
             getPassword() {
                 let passwd = this.$store.getters.getPassword;
                 if (passwd !== undefined) {
+                    this.$store.commit('addSuccessMessage', 'Password was copied to clipboard');
                     this.$emit('hide');
                 } else {
-                    alert('Incorrect authenticator code!');
+                    this.$store.commit('addErrorMessage', 'Wrong authenticator code!');
                 }
             }
         }

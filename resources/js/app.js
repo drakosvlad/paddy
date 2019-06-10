@@ -24,9 +24,44 @@ import RegisterComponent from './components/pages/RegisterComponent.vue';
 import PasswordsComponent from './components/pages/PasswordsComponent.vue';
 import SettingsComponent from "./components/pages/SettingsComponent";
 
+import MessageComponent from "./components/MessageComponent";
+
 function processPassword(cipher, password) {
     password.name = cipher.decrypt(password.name);
     password.username = cipher.decrypt(password.username);
+}
+
+function messageFromError(error) {
+    if (error.response.data.message != undefined) {
+        return { error: true, text: error.response.data.message, time: 3000, active: true }
+    }
+    return messageFromErrorCode(error.response.status);
+}
+
+function messageFromErrorCode(code) {
+    let message = { error: true, text: `Unknown error (${code})`, time: 3000, active: true }
+
+    switch(code) {
+        case 401:
+            message.text = "Authentication failed!";
+            break;
+        case 404:
+            message.text = "Item not found!";
+            break;
+        case 500:
+            message.text = "Server error!";
+            break;
+    }
+
+    return message;
+}
+
+function successMessage(text) {
+    return { error: false, text: text, time: 3000, active: true };
+}
+
+function errorMessage(text) {
+    return { error: true, text: text, time: 3000, active: true };
 }
 
 const copyToClipboard = str => {
@@ -72,7 +107,9 @@ const store = new Vuex.Store({
         googleAuthCode: {
             code: ""
         },
-        cipher: undefined
+        cipher: undefined,
+        messages: [
+        ]
     },
     mutations: {
         setRouter(context, router) {
@@ -144,6 +181,20 @@ const store = new Vuex.Store({
         deletePasswordApply(context) {
             context.passwords.splice(context.selectedPassword, 1);
         },
+        addMessage(context, message) {
+            context.messages.push(message);
+            setTimeout(function () { this.active = false; }.bind(message), message.time);
+        },
+        addErrorMessage(context, text) {
+            let message = errorMessage(text);
+            context.messages.push(message);
+            setTimeout(function () { this.active = false; }.bind(message), message.time);
+        },
+        addSuccessMessage(context, text) {
+            let message = successMessage(text);
+            context.messages.push(message);
+            setTimeout(function () { this.active = false; }.bind(message), message.time);
+        }
     },
     getters: {
         isAuthorized(context) {
@@ -189,14 +240,15 @@ const store = new Vuex.Store({
                 dispatch('initializeTotpSecret');
                 state.router.push({ path: '/passwords' });
             }).catch((error) => {
-                commit('unauthorize');
                 console.log(error);
+                commit('unauthorize');
+                commit('addMessage', messageFromError(error));
             });
         },
         register({ state, commit }) {
             let verified = speakeasy.totp.verify({ secret: state.registerAuth.secret.ascii, encoding: 'ascii', token: state.registerAuth.totpCode });
             if (!verified) {
-                console.log("Wrong totp code");
+                commit('addErrorMessage', 'Wrong authenticator code!');
                 return;
             }
 
@@ -219,10 +271,11 @@ const store = new Vuex.Store({
                 config
             ).then((response) => {
                 state.router.push({ path: '/' });
+                commit('resetRegisterCredentials');
+                commit('addMessage', successMessage("Registration completed successfully"));
             }).catch((error) => {
-                console.log(error);
+                commit('addMessage', messageFromError(error));
             });
-            commit('resetRegisterCredentials');
         },
         refreshToken({ state, commit }) {
             let config = {
@@ -238,8 +291,10 @@ const store = new Vuex.Store({
             ).then((response) => {
                 commit('setToken', response.data.access_token);
             }).catch((error) => {
-                commit('unauthorize');
-                console.log(error);
+                if (error.response.status == 401) {
+                    commit('unauthorize');
+                }
+                commit('addMessage', messageFromError(error));
             });
         },
         retrievePasswords({ state, commit }) {
@@ -255,8 +310,10 @@ const store = new Vuex.Store({
             ).then((response) => {
                 commit('setPasswords', response.data.passwords);
             }).catch((error) => {
-                commit('unauthorize');
-                console.log(error);
+                if (error.response.status == 401) {
+                    commit('unauthorize');
+                }
+                commit('addMessage', messageFromError(error));
             });
         },
         addPassword({ state, commit }) {
@@ -279,9 +336,10 @@ const store = new Vuex.Store({
                 commit('pushPassword', response.data.password);
                 commit('resetNewPassword');
             }).catch((error) => {
-                // TODO error handling
-                //commit('unauthorize');
-                console.log(error);
+                if (error.response.status == 401) {
+                    commit('unauthorize');
+                }
+                commit('addMessage', messageFromError(error));
             });
         },
         editPassword({ state, commit }) {
@@ -305,9 +363,10 @@ const store = new Vuex.Store({
                 commit('editPasswordApply', response.data.password);
                 commit('resetEditPassword');
             }).catch((error) => {
-                // TODO error handling
-                //commit('unauthorize');
-                console.log(error);
+                if (error.response.status == 401) {
+                    commit('unauthorize');
+                }
+                commit('addMessage', messageFromError(error));
             });
         },
         deletePassword({ state, commit }) {
@@ -327,9 +386,10 @@ const store = new Vuex.Store({
             ).then((response) => {
                 commit('deletePasswordApply', response.data.password);
             }).catch((error) => {
-                // TODO error handling
-                //commit('unauthorize');
-                console.log(error);
+                if (error.response.status == 401) {
+                    commit('unauthorize');
+                }
+                commit('addMessage', messageFromError(error));
             });
         },
         initializeAuthenticator({ state, commit }) {
@@ -350,7 +410,7 @@ const store = new Vuex.Store({
             ).then((response) => {
                 commit('setTOTPSecret', state.cipher.decrypt(response.data.totp_secret));
             }).catch((error) => {
-                this.commit('unauthorize');
+                commit('unauthorize');
             });
         }
     }
@@ -421,7 +481,8 @@ const app = new Vue({
     components: {
         LoginComponent,
         RegisterComponent,
-        PasswordsComponent
+        PasswordsComponent,
+        MessageComponent
     },
     data: function() {
         return {
@@ -431,14 +492,14 @@ const app = new Vue({
     computed: {
         isAuthorized() {
             return this.$store.getters.isAuthorized;
+        },
+        messages() {
+            return this.$store.state.messages;
         }
     },
     methods: {
         logout() {
             this.$store.commit('unauthorize');
         }
-    },
-    created() {
-        //this.$store.dispatch('register');
     }
 }).$mount('#app');

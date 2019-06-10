@@ -16,6 +16,11 @@
                 <span class="logo">Paddy</span>
                 <button v-if="isAuthorized" class="btn" id="button-secondary-white" @click="logout">Log out</button>
             </div>
+            <div class="notifications align-center">
+                <transition name="fade">
+                    <message-component v-for="(message, index) in messages" :key="index" :message="message" v-if="message.active"></message-component>
+                </transition>
+            </div>
             <keep-alive>
                 <router-view></router-view>
             </keep-alive>
