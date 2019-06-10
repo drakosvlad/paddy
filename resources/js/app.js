@@ -47,7 +47,7 @@ const store = new Vuex.Store({
         selectedPassword: undefined,
         totpSecret: undefined,
         router: undefined,
-        passwords: [{name: "Google", username: "lolkek"}, {name: "Yahoo", username: "lolkek"}],
+        passwords: [],
         auth: {
             login: "",
             password: ""
@@ -371,6 +371,8 @@ const routes = [
         beforeEnter: (to, from, next) => {
             if (!store.getters.isAuthorized) {
                 next('/');
+            } else {
+                next();
             }
         }
     },
@@ -380,6 +382,8 @@ const routes = [
         beforeEnter: (to, from, next) => {
             if (!store.getters.isAuthorized) {
                 next('/');
+            } else {
+                next();
             }
         }
     }
