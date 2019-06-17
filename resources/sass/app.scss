@@ -38,7 +38,15 @@ body {
     font-size: 36px;
 }
 
-.button-primary, .button-secondary, #button-secondary-white {
+.back-link {
+    color: $focused-gray-50;
+}
+
+.back-link:visited {
+    color: $focused-gray-50;
+}
+
+.button-primary, .button-secondary, .button-secondary-white, .button-red {
     min-width: 100px;
     max-width: 200px;
     height: 40px;
@@ -59,18 +67,16 @@ body {
     color: $lively-green-50;
 }
 
-#button-secondary-white {
-    float: right;
-    margin: 5px 20px;
+.button-secondary-white {
     background: transparent;
     border: 1px solid white;
     color: white;
 }
 
-#button-secondary-white:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid white;
-    color: white;
+.button-red {
+    background: transparent;
+    border: 1px solid $danger-red-50;
+    color: $danger-red-50;
 }
 
 .button-primary:hover {
@@ -81,6 +87,28 @@ body {
 .button-secondary:hover {
     background-color: $lively-green-50;
     color: white;
+}
+
+.button-secondary-white:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid white;
+    color: white;
+}
+
+.button-red:hover {
+    background-color: $danger-red-50;
+    color: white;
+}
+
+#header-button-group {
+    height: $header-height;
+    float: right;
+    margin: 0 5px;
+
+    .button-secondary-white {
+        margin: 5px;
+    }
+
 }
 
 .input-field {
@@ -108,18 +136,6 @@ body {
     max-width: 500px;
 }
 
-.button-red {
-    background: white;
-    color: $danger-red-50;
-    border-color: $danger-red-50;
-    border-radius: 50px;
-    min-width: 100px;
-}
-
-.button-red:hover {
-    color: $danger-red-50;
-}
-
 .notifications {
     position: absolute;
     width: 100%;
@@ -132,4 +148,8 @@ body {
 
 .fade-leave-active {
     opacity: 0 !important;
+}
+
+.container-margin-top {
+    margin-top: 20px;
 }

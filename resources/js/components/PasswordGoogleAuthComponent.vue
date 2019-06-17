@@ -1,5 +1,5 @@
 <template>
-    <div class="container overlay-container">
+    <div class="container overlay-container container-margin-top">
 
         <div class="form-group">
             <label for="authCode">Enter Authenticator code:</label>

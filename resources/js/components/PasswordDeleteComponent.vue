@@ -1,9 +1,9 @@
 <template>
-    <div class="container overlay-container">
+    <div class="container overlay-container container-margin-top">
         <div class="form-group">
-            <label for="delete">Are you sure?</label>
+            <p class="align-center">Are you sure you want to delete your password?</p>
             <div class="align-center">
-                <button class="btn button-red" id="delete" @click="deletePassword">Delete</button>
+                <button class="btn button-red" id="delete" @click="deletePassword">Delete password</button>
             </div>
         </div>
     </div>

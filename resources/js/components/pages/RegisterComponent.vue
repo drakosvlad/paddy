@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="align-center">
-                    <router-link class="login-link" to="/">Back to login</router-link>
+                    <router-link class="back-link" to="/">Back to login</router-link>
                     <button class="btn button-primary" @click="register">Register</button>
                 </div>
 
@@ -60,14 +60,6 @@
         border-radius: $card-border-radius;
         padding-top: 20px;
         padding-bottom: 10px;
-    }
-
-    .login-link {
-        color: $focused-gray-50;
-    }
-
-    .login-link:visited {
-        color: $focused-gray-50;
     }
 
     #qrCode {

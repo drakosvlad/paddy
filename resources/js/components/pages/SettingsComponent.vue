@@ -7,12 +7,15 @@
                 <input class="input-field form-control" type="password" id="prev-password" name="password" placeholder="Previous password" v-model="changePasswordData.oldPassword">
                 <input class="input-field form-control" type="password" id="new-password" name="password" placeholder="New password" v-model="changePasswordData.newPassword">
                 <input class="input-field form-control" type="password" id="repeat-password" name="password" placeholder="Repeat password" v-model="changePasswordData.newPassword2">
-                <div class="align-center">
-                    <button class="btn button-secondary" @click="changePassword">Change password</button>
+                <div class="settings-button-group">
+                    <div class="align-center">
+                        <button class="btn button-secondary" @click="changePassword">Change password</button>
+                    </div>
+                    <div class="align-center">
+                        <button class="btn button-red" id="delete" @click="showDeleteConfirmation">Delete account</button>
+                    </div>
                 </div>
-                <div class="align-center">
-                    <button class="btn button-red" id="delete" @click="showDeleteConfirmation">Delete</button>
-                </div>
+                <router-link class="back-link settings-link" to="passwords">Back to passwords</router-link>
             </div>
         </div>
         <transition name="fade">
@@ -71,6 +74,18 @@
         max-width: 600px;
         border-radius: $card-border-radius;
         margin: 0 auto;
+    }
+
+    .settings-button-group {
+        padding: 10px;
+        .btn {
+            margin: 5px;
+        }
+    }
+
+    .settings-link {
+        display: block;
+        text-align: center;
     }
 
     @media (min-width: 769px) {

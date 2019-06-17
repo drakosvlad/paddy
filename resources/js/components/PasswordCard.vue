@@ -46,7 +46,6 @@
         padding: 10px;
         box-shadow: $shadow;
         height: 90px;
-        cursor: pointer;
 
         .acc-name {
             color: $friendly-blue-50;
@@ -56,6 +55,7 @@
             white-space: nowrap;
             overflow: hidden;
             margin-bottom: 0;
+            cursor: pointer;
         }
 
         .acc-username {
@@ -73,12 +73,14 @@
             margin: auto;
             display: block;
             fill: $focused-gray-50;
+            cursor: pointer;
         }
 
         .password-icon {
             float: right;
             height: 32px;
             margin: 0 5px;
+            cursor: pointer;
         }
     }
 
