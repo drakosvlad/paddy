@@ -70,8 +70,19 @@
         box-shadow: $shadow;
         max-width: 600px;
         border-radius: $card-border-radius;
-        padding: 20px 100px 10px;
         margin: 0 auto;
+    }
+
+    @media (min-width: 769px) {
+        .settings-div {
+            padding: 20px 100px 10px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .settings-div {
+            padding: 20px 10px 10px;
+        }
     }
 
     .veil {
