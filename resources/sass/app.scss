@@ -112,6 +112,12 @@ body {
     background: white;
     color: $danger-red-50;
     border-color: $danger-red-50;
+    border-radius: 50px;
+    min-width: 100px;
+}
+
+.button-red:hover {
+    color: $danger-red-50;
 }
 
 .notifications {

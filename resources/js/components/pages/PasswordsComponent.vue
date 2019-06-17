@@ -36,9 +36,7 @@
         data: function() {
             return {
                 currentOverlay: "",
-                overlay: false,
-                newPassword: false,
-                googleAuth: false
+                overlay: false
             }
         },
         computed: {

@@ -1,35 +1,64 @@
 <template>
     <div class="container">
-
         <div class="settings-div ">
             <span class="main-heading">Settings</span>
-
-            <div class="form-group">
-                <label for="change-username">Change username:</label>
-                <input class="input-field form-control" type="text" id="change-username" name="new-username" placeholder="New username">
-                <div class="align-center">
-                    <button class="btn button-secondary">Change username</button>
-                </div>
-            </div>
-
             <div class="form-group">
                 <label for="prev-password">Change password:</label>
-                <input class="input-field form-control" type="password" id="prev-password" name="password" placeholder="Previous password">
-                <input class="input-field form-control" type="password" id="new-password" name="password" placeholder="New password">
-                <input class="input-field form-control" type="password" id="repeat-password" name="password" placeholder="Repeat password">
+                <input class="input-field form-control" type="password" id="prev-password" name="password" placeholder="Previous password" v-model="changePasswordData.oldPassword">
+                <input class="input-field form-control" type="password" id="new-password" name="password" placeholder="New password" v-model="changePasswordData.newPassword">
+                <input class="input-field form-control" type="password" id="repeat-password" name="password" placeholder="Repeat password" v-model="changePasswordData.newPassword2">
                 <div class="align-center">
-                    <button class="btn button-secondary">Change password</button>
+                    <button class="btn button-secondary" @click="changePassword">Change password</button>
+                </div>
+                <div class="align-center">
+                    <button class="btn button-red" id="delete" @click="showDeleteConfirmation">Delete</button>
                 </div>
             </div>
-
         </div>
-
+        <transition name="fade">
+            <div class="veil" v-if="overlay" @click="disableOverlay"></div>
+        </transition>
+        <transition name="swing">
+            <div class="overlay" v-if="overlay">
+                <keep-alive>
+                    <component :is="currentOverlay" @hide="disableOverlay"></component>
+                </keep-alive>
+            </div>
+        </transition>
     </div>
 </template>
 
 <script>
+    import ConfirmAccountDeleteComponent from '../ConfirmAccountDeleteComponent';
+
     export default {
-        name: "SettingsComponent"
+        name: "SettingsComponent",
+        components: {
+            ConfirmAccountDeleteComponent
+        },
+        data: function() {
+            return {
+                currentOverlay: "",
+                overlay: false
+            }
+        },
+        computed: {
+            changePasswordData() {
+                return this.$store.state.changePasswordAuth;
+            }
+        },
+        methods: {
+            disableOverlay() {
+                this.overlay = false;
+            },
+            showDeleteConfirmation() {
+                this.currentOverlay = "ConfirmAccountDeleteComponent";
+                this.overlay = true;
+            },
+            changePassword() {
+                this.$store.dispatch('changePassword');
+            }
+        }
     }
 </script>
 
@@ -43,6 +72,45 @@
         border-radius: $card-border-radius;
         padding: 20px 100px 10px;
         margin: 0 auto;
+    }
+
+    .veil {
+        width: 100vw;
+        height: 100%;
+        position: absolute;
+        background: rgba(0, 0, 0, 0.5);
+        top: 0;
+        left: 0;
+        opacity: 1;
+        transition: opacity .15s;
+    }
+
+    .overlay {
+        width: 100vw;
+        position: fixed;
+        height: $overlay-height;
+        top: calc(100% - #{$overlay-height});
+        left: 0;
+        background: white;
+        margin-top: 0;
+        transition: margin-top .3s;
+        box-shadow: $shadow;
+    }
+
+    .swing-enter {
+        margin-top: $overlay-height + 10px;
+    }
+
+    .swing-leave-active {
+        margin-top: $overlay-height + 10px;
+    }
+
+    .fade-enter {
+        opacity: 0;
+    }
+
+    .fade-leave-active {
+        opacity: 0;
     }
 
 </style>

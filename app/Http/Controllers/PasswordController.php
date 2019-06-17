@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 
 class PasswordController extends Controller
 {
+    const VARCHAR_LENGTH = 255;
+
     /**
      * PasswordController constructor.
      */
@@ -45,6 +47,18 @@ class PasswordController extends Controller
      */
     public function store(Request $request)
     {
+        if (strlen(request('name')) > self::VARCHAR_LENGTH) {
+            return response()->json(['message' => 'Name too long'], 400);
+        }
+
+        if (strlen(request('value')) > self::VARCHAR_LENGTH) {
+            return response()->json(['message' => 'Password too long'], 400);
+        }
+
+        if (strlen(request('username')) > self::VARCHAR_LENGTH) {
+            return response()->json(['message' => 'Username too long'], 400);
+        }
+
         $pass = \App\Password::create([
             'user_id' => auth()->user()->id,
             'name' => request('name'),
@@ -101,6 +115,18 @@ class PasswordController extends Controller
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
+        if (strlen(request('name')) > self::VARCHAR_LENGTH) {
+            return response()->json(['message' => 'Name too long'], 400);
+        }
+
+        if (strlen(request('value')) > self::VARCHAR_LENGTH) {
+            return response()->json(['message' => 'Password too long'], 400);
+        }
+
+        if (strlen(request('username')) > self::VARCHAR_LENGTH) {
+            return response()->json(['message' => 'Username too long'], 400);
+        }
+
         if (request('name') != null) {
             $pass->name = request('name');
         }
@@ -110,7 +136,7 @@ class PasswordController extends Controller
         }
 
         if (request('username') != null) {
-            $pass->value = request('username');
+            $pass->username = request('username');
         }
 
         $pass->save();

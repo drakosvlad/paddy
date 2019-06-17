@@ -42,7 +42,6 @@ class AuthController extends Controller
      */
     public function register()
     {
-        // TODO users unique names
         $users = User::where(['name' => \request('name')])->get();
         if ($users->count() != 0) {
             return response()->json(['message' => 'User with this name already exists'], 400);
@@ -58,12 +57,29 @@ class AuthController extends Controller
     }
 
     /**
+     * Delete user.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete() {
+        auth()->user()->delete();
+        return response()->json(['message' => 'Successfully deleted']);
+    }
+
+    /**
      * Get the authenticated User.
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function me()
     {
+        return response()->json(auth()->user());
+    }
+
+    public function changePassword() {
+        auth()->user()->password = Hash::make(\request('password'));
+        auth()->user()->totp_secret = \request('totp_secret');
+        auth()->user()->save();
         return response()->json(auth()->user());
     }
 

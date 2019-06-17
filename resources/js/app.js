@@ -107,6 +107,11 @@ const store = new Vuex.Store({
         googleAuthCode: {
             code: ""
         },
+        changePasswordAuth: {
+            oldPassword: "",
+            newPassword: "",
+            newPassword2: ""
+        },
         cipher: undefined,
         messages: [
         ]
@@ -291,7 +296,7 @@ const store = new Vuex.Store({
             ).then((response) => {
                 commit('setToken', response.data.access_token);
             }).catch((error) => {
-                if (error.response.status == 401) {
+                if (error.response.status === 401) {
                     commit('unauthorize');
                 }
                 commit('addMessage', messageFromError(error));
@@ -310,7 +315,7 @@ const store = new Vuex.Store({
             ).then((response) => {
                 commit('setPasswords', response.data.passwords);
             }).catch((error) => {
-                if (error.response.status == 401) {
+                if (error.response.status === 401) {
                     commit('unauthorize');
                 }
                 commit('addMessage', messageFromError(error));
@@ -336,7 +341,7 @@ const store = new Vuex.Store({
                 commit('pushPassword', response.data.password);
                 commit('resetNewPassword');
             }).catch((error) => {
-                if (error.response.status == 401) {
+                if (error.response.status === 401) {
                     commit('unauthorize');
                 }
                 commit('addMessage', messageFromError(error));
@@ -363,7 +368,7 @@ const store = new Vuex.Store({
                 commit('editPasswordApply', response.data.password);
                 commit('resetEditPassword');
             }).catch((error) => {
-                if (error.response.status == 401) {
+                if (error.response.status === 401) {
                     commit('unauthorize');
                 }
                 commit('addMessage', messageFromError(error));
@@ -386,7 +391,7 @@ const store = new Vuex.Store({
             ).then((response) => {
                 commit('deletePasswordApply', response.data.password);
             }).catch((error) => {
-                if (error.response.status == 401) {
+                if (error.response.status === 401) {
                     commit('unauthorize');
                 }
                 commit('addMessage', messageFromError(error));
@@ -411,6 +416,76 @@ const store = new Vuex.Store({
                 commit('setTOTPSecret', state.cipher.decrypt(response.data.totp_secret));
             }).catch((error) => {
                 commit('unauthorize');
+            });
+        },
+        deleteAccount({ state, commit }) {
+            let config = {
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `bearer ${state.token}`
+                }
+            };
+
+            Axios.delete(
+                '/api/auth/me',
+                config
+            ).then((response) => {
+                commit('unauthorize');
+            }).catch((error) => {
+                commit('unauthorize');
+            });
+        },
+        changePassword({ state, commit }) {
+            let config = {
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `bearer ${state.token}`
+                }
+            };
+
+            if (state.changePasswordAuth.newPassword !== state.changePasswordAuth.newPassword2) {
+                commit('addErrorMessage', 'Passwords do not match');
+            }
+
+            let oldCipher = state.cipher;
+            commit('initializeCipher', state.changePasswordAuth.newPassword);
+
+            state.passwords.forEach((pass) => {
+                let formData = {
+                    name: state.cipher.encrypt(pass.name),
+                    value: state.cipher.encrypt(oldCipher.decrypt(pass.value)),
+                    username: state.cipher.encrypt(pass.username),
+                    _method: "PUT"
+                };
+                Axios.post(
+                    "/api/passwords/" + pass.id,
+                    formData,
+                    config
+                ).catch((error) => {
+                    if (error.response.status === 401) {
+                        commit('unauthorize');
+                    }
+                    commit('addMessage', messageFromError(error));
+                });
+            });
+
+            let formData = {
+                password: SHA.sha256(state.changePasswordAuth.newPassword),
+                totp_secret: state.cipher.encrypt(state.totpSecret),
+                _method: "PUT"
+            };
+
+            Axios.post(
+                "/api/auth/me",
+                formData,
+                config
+            ).then(() => {
+                commit('addSuccessMessage', 'Password changed succesfully');
+            }).catch((error) => {
+                if (error.response.status === 401) {
+                    commit('unauthorize');
+                }
+                commit('addMessage', messageFromError(error));
             });
         }
     }
@@ -500,6 +575,9 @@ const app = new Vue({
     methods: {
         logout() {
             this.$store.commit('unauthorize');
+        },
+        settings() {
+            this.$router.push('/settings');
         }
     }
 }).$mount('#app');

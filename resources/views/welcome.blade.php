@@ -15,6 +15,7 @@
             <div class="header">
                 <span class="logo">Paddy</span>
                 <button v-if="isAuthorized" class="btn" id="button-secondary-white" @click="logout">Log out</button>
+                <button v-if="isAuthorized" class="btn" id="button-secondary-white" @click="settings">Settings</button>
             </div>
             <div class="notifications align-center">
                 <transition name="fade">

@@ -19,6 +19,8 @@ Route::prefix('auth')->group(function () {
     Route::post('logout', ['uses' => 'AuthController@logout']);
     Route::post('refresh', ['uses' => 'AuthController@refresh']);
     Route::get('me', ['uses' => 'AuthController@me']);
+    Route::delete('me', ['uses' => 'AuthController@delete']);
+    Route::put('me', ['uses' => 'AuthController@changePassword']);
 });
 
 Route::get('lol', function () {

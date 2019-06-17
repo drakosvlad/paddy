@@ -3,9 +3,9 @@
         <div class="password-card" @click="cardClick">
             <span v-if="name != undefined"><img class="password-icon" src="../../images/rubbish-bin.png" alt="delete password" @click="clickDelete"></span>
             <span v-if="name != undefined"><img class="password-icon" src="../../images/pencil-outline.png" alt="delete password" @click="clickEdit"></span>
-            <span v-if="name != undefined" class="acc-name" @click="click">{{ name }}</span>
+            <p v-if="name != undefined" class="acc-name" @click="click">{{ name }}</p>
             <br v-if="name != undefined" />
-            <span class="acc-username" v-if="name != undefined">Username: <i>{{ username }}</i></span>
+            <p class="acc-username" v-if="name != undefined">Username: <i>{{ username }}</i></p>
             <svg v-else class="svg-icon" viewBox="0 0 25 25">
                 <path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/>
             </svg>
@@ -52,10 +52,19 @@
             color: $friendly-blue-50;
             font-size: 24px;
             font-weight: bold;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            margin-bottom: 0;
         }
 
         .acc-username {
             font-size: 18px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            margin-bottom: 0;
+            margin-top: -18px;
         }
 
         .svg-icon {

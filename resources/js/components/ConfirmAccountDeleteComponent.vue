@@ -3,7 +3,7 @@
         <div class="form-group">
             <label for="delete">Are you sure?</label>
             <div class="align-center">
-                <button class="btn button-red" id="delete" @click="deletePassword">Delete</button>
+                <button class="btn button-red" id="delete" @click="deleteAccount">Delete</button>
             </div>
         </div>
     </div>
@@ -11,10 +11,10 @@
 
 <script>
     export default {
-        name: "PasswordDeleteComponent",
+        name: "ConfirmAccountDeleteComponent",
         methods: {
-            deletePassword() {
-                this.$store.dispatch("deletePassword");
+            deleteAccount() {
+                this.$store.dispatch("deleteAccount");
                 this.$emit('hide');
             }
         }
